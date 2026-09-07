@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMÉ | Haute Parfumerie</title>
+  
+  <!-- ========================================================================= -->
+  <!-- GOOGLE ANALYTICS 4 (GA4) PARA EL TDR                                      -->
+  <!-- Sustituye 'G-XXXXXXXXXX' por tu ID de medición real de Google Analytics.   -->
+  <!-- ========================================================================= -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // <- PEGA TU ID AQUÍ
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Configuración base de GA4 (desactivamos page_view automático para gestionarlo en la SPA)
+    gtag('config', GA_MEASUREMENT_ID, {
+      send_page_view: false
+    });
+
+    // Función auxiliar para registrar eventos con trazabilidad en la consola para tu estudio
+    function trackEvent(eventName, params = {}) {
+      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+        gtag('event', eventName, params);
+      }
+      // Log visible en consola (F12) para que puedas verificar que funciona al hacer pruebas
+      console.log(`%c[GA4 TDR Track] Evento: %c${eventName}`, 'color: #C69586; font-weight: bold;', 'color: #1C1917;', params);
+    }
+  </script>
+
+  <!-- Tipografías elegantes Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #FBF9F6;
+      --bg-card: #FFFFFF;
+      --accent-rose: #E6C5BA;
+      --accent-rose-dark: #C69586;
+      --accent-blush: #F4E8E3;
+      --text-main: #1C1917;
+      --text-muted: #78716C;
+      --border-subtle: #ECE6DF;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      --shadow-sm: 0 4px 20px rgba(28, 25, 23, 0.04);
+      --shadow-md: 0 10px 30px rgba(28, 25, 23, 0.08);
+      --shadow-lg: 0 20px 45px rgba(28, 25, 23, 0.12);
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-sans); background-color: var(--bg-cream); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.02em; }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    button { font-family: var(--font-sans); cursor: pointer; border: none; outline: none; transition: var(--transition); }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+
+    .badge-offer {
+      background-color: #D94652;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: var(--text-main);
+      color: #fff;
+      padding: 0.95rem 2.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-rose-dark);
+      box-shadow: 0 8px 25px rgba(198, 149, 134, 0.35);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--text-main);
+      padding: 0.9rem 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+    .btn-secondary:hover {
+      background-color: var(--text-main);
+      color: #fff;
+    }
+
+    .top-notification {
+      background: var(--text-main);
+      color: #FFF;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 0.55rem 1rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .top-notification span { color: var(--accent-rose); font-weight: 600; }
+
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+    .brand-logo { font-family: var(--font-serif); font-size: 2.2rem; letter-spacing: 0.22em; font-weight: 700; color: var(--text-main); }
+    .brand-logo span { color: var(--accent-rose-dark); }
+    nav.main-menu { display: flex; align-items: center; gap: 2.2rem; }
+    .nav-link {
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-main);
+      position: relative;
+      padding: 0.4rem 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-rose-dark);
+      transition: var(--transition);
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-actions { display: flex; align-items: center; gap: 1.2rem; }
+    .search-box { position: relative; display: flex; align-items: center; }
+    .search-input {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-family: var(--font-sans);
+      width: 170px;
+      transition: var(--transition);
+    }
+    .search-input:focus { width: 220px; border-color: var(--accent-rose-dark); background: #fff; }
+    .search-icon { position: absolute; left: 0.8rem; font-size: 0.85rem; color: var(--text-muted); pointer-events: none; }
+    .icon-btn { background: none; position: relative; font-size: 1.2rem; color: var(--text-main); padding: 0.4rem; display: flex; align-items: center; justify-content: center; }
+    .icon-btn:hover { color: var(--accent-rose-dark); }
+    .cart-badge {
+      position: absolute;
+      top: -2px;
+      right: -4px;
+      background: var(--accent-rose-dark);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-toggle { display: none; font-size: 1.5rem; background: none; }
+
+    .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
+    .view-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-banner {
+      position: relative;
+      background: linear-gradient(135deg, #FFF9F7 0%, #F5ECE8 50%, #ECE1DC 100%);
+      padding: 4.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 3rem; }
+    .hero-tagline { font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 600; color: var(--accent-rose-dark); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+    .hero-title { font-size: 3.8rem; line-height: 1.08; margin-bottom: 1.2rem; color: var(--text-main); }
+    .hero-subtitle { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; font-weight: 300; }
+    .hero-price-box { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.2rem; }
+    .hero-old-price { font-size: 1.3rem; color: var(--text-muted); text-decoration: line-through; }
+    .hero-new-price { font-size: 2.6rem; font-family: var(--font-serif); font-weight: 700; color: var(--text-main); }
+    .hero-image-wrapper { position: relative; display: flex; justify-content: center; }
+    .hero-img { max-width: 100%; height: 480px; object-fit: cover; border-radius: 12px; box-shadow: var(--shadow-lg); position: relative; z-index: 2; border: 6px solid #FFFFFF; }
+
+    .features-strip { background: #FFFFFF; border-bottom: 1px solid var(--border-subtle); padding: 1.8rem 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; }
+    .feature-item h4 { font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+    .feature-item p { font-size: 0.75rem; color: var(--text-muted); }
+
+    .section-head { text-align: center; max-width: 650px; margin: 4rem auto 2.5rem; }
+    .section-head .subtitle { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-rose-dark); font-weight: 600; margin-bottom: 0.4rem; }
+    .section-head h2 { font-size: 2.5rem; color: var(--text-main); }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--accent-rose); }
+    .card-badge { position: absolute; top: 12px; left: 12px; z-index: 2; }
+    .product-thumb { width: 100%; height: 290px; position: relative; background: #F8F5F2; overflow: hidden; cursor: pointer; }
+    .product-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .product-card:hover .product-thumb img { transform: scale(1.05); }
+    .product-info { padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .product-brand { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin-bottom: 0.3rem; }
+    .product-title { font-size: 1.25rem; color: var(--text-main); margin-bottom: 0.5rem; cursor: pointer; line-height: 1.2; }
+    .product-title:hover { color: var(--accent-rose-dark); }
+    .product-rating { display: flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: #EAB308; margin-bottom: 0.9rem; }
+    .product-rating span { color: var(--text-muted); font-size: 0.72rem; margin-left: 0.2rem; }
+    .product-pricing { margin-top: auto; display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 1rem; }
+    .price-current { font-size: 1.3rem; font-weight: 700; font-family: var(--font-serif); color: var(--text-main); }
+    .price-original { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; }
+    .btn-add-cart {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .btn-add-cart:hover { background: var(--text-main); color: #fff; border-color: var(--text-main); }
+
+    .brands-index { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin: 3rem 0 4rem; }
+    .brand-tile { background: #FFFFFF; border: 1px solid var(--border-subtle); padding: 2.2rem 1.5rem; text-align: center; border-radius: 3px; cursor: pointer; transition: var(--transition); }
+    .brand-tile:hover { border-color: var(--accent-rose-dark); box-shadow: var(--shadow-sm); transform: translateY(-3px); }
+    .brand-tile h3 { font-family: var(--font-sans); font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem; }
+    .brand-tile span { font-size: 0.75rem; color: var(--text-muted); }
+
+    .product-detail-page { padding: 3.5rem 0 5rem; }
+    .breadcrumb { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .breadcrumb a:hover { color: var(--accent-rose-dark); }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; background: #FFFFFF; padding: 3rem; border-radius: 4px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); }
+    .detail-gallery { display: flex; flex-direction: column; gap: 1rem; }
+    .detail-main-img { width: 100%; height: 520px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border-subtle); }
+    .detail-info { display: flex; flex-direction: column; }
+    .detail-brand { font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-rose-dark); font-weight: 700; margin-bottom: 0.4rem; }
+    .detail-name { font-size: 2.7rem; line-height: 1.15; margin-bottom: 0.8rem; }
+    .detail-rating { display: flex; align-items: center; gap: 0.4rem; color: #EAB308; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .detail-rating span { color: var(--text-muted); font-size: 0.8rem; }
+    .detail-price-box { display: flex; align-items: center; gap: 1.2rem; padding: 1.2rem; background: var(--bg-cream); border-radius: 4px; margin-bottom: 1.8rem; border-left: 4px solid #D94652; }
+    .detail-current-price { font-size: 2.2rem; font-family: var(--font-serif); font-weight: 700; color: #D94652; }
+    .detail-old-price { font-size: 1.15rem; text-decoration: line-through; color: var(--text-muted); }
+    .detail-discount-pill { background: #D94652; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 2px; text-transform: uppercase; }
+    .detail-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.8rem; line-height: 1.7; }
+    .notes-box { margin-bottom: 2rem; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 1.2rem 0; }
+    .notes-box h4 { font-size: 1.1rem; margin-bottom: 0.8rem; font-family: var(--font-serif); }
+    .note-row { display: flex; margin-bottom: 0.4rem; font-size: 0.85rem; }
+    .note-label { width: 130px; font-weight: 600; color: var(--text-main); }
+    .note-val { color: var(--text-muted); }
+    .size-selector { margin-bottom: 1.8rem; }
+    .size-selector label { display: block; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
+    .size-pills { display: flex; gap: 0.6rem; }
+    .size-pill { padding: 0.5rem 1.2rem; border: 1px solid var(--border-subtle); background: #fff; font-size: 0.85rem; cursor: pointer; border-radius: 2px; }
+    .size-pill.active { border-color: var(--text-main); background: var(--text-main); color: #fff; }
+    .detail-cta-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .qty-picker { display: flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 2px; }
+    .qty-btn { background: #fff; width: 42px; height: 46px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+    .qty-num { width: 44px; text-align: center; font-weight: 600; font-size: 0.9rem; }
+
+    .about-wrapper { padding: 4.5rem 0 6rem; max-width: 820px; margin: 0 auto; }
+    .about-card { background: #FFFFFF; padding: 3.5rem; border-radius: 4px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); }
+    .academic-tag { background: var(--accent-blush); color: var(--accent-rose-dark); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.8rem; display: inline-block; margin-bottom: 1.2rem; border-radius: 2px; }
+    .about-card h2 { font-size: 2.6rem; margin-bottom: 1.5rem; }
+    .about-card p { color: var(--text-muted); font-size: 0.98rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .about-highlight { background: var(--bg-cream); padding: 1.5rem; border-left: 3px solid var(--accent-rose-dark); font-style: italic; margin: 1.8rem 0; color: var(--text-main); }
+
+    .cart-drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.45); z-index: 999; opacity: 0; pointer-events: none; transition: var(--transition); backdrop-filter: blur(2px); }
+    .cart-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .cart-drawer { position: fixed; top: 0; right: -420px; width: 400px; max-width: 90vw; height: 100vh; background: #fff; z-index: 1000; box-shadow: -5px 0 35px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .cart-drawer.open { right: 0; }
+    .cart-header { padding: 1.4rem; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+    .cart-header h3 { font-size: 1.35rem; letter-spacing: 0.05em; }
+    .close-btn { font-size: 1.4rem; background: none; color: var(--text-muted); }
+    .close-btn:hover { color: var(--text-main); }
+    .cart-items-wrap { flex-grow: 1; overflow-y: auto; padding: 1.2rem; }
+    .cart-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-size: 0.9rem; }
+    .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-subtle); position: relative; }
+    .cart-item img { width: 70px; height: 85px; object-fit: cover; border-radius: 2px; background: var(--bg-cream); }
+    .cart-item-details { flex-grow: 1; }
+    .cart-item-brand { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+    .cart-item-name { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .cart-item-price { font-family: var(--font-serif); font-weight: 700; font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; }
+    .cart-item-controls { display: flex; align-items: center; gap: 0.8rem; }
+    .cart-qty-ctrl { display: flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 2px; }
+    .cart-qty-ctrl button { background: none; width: 26px; height: 26px; font-size: 0.9rem; }
+    .cart-qty-ctrl span { width: 24px; text-align: center; font-size: 0.8rem; font-weight: 600; }
+    .cart-remove-btn { background: none; color: #A8A29E; font-size: 0.75rem; text-decoration: underline; }
+    .cart-remove-btn:hover { color: #DC2626; }
+    .cart-footer { padding: 1.4rem; border-top: 1px solid var(--border-subtle); background: var(--bg-cream); }
+    .cart-subtotal-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; font-size: 0.88rem; color: var(--text-muted); }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.2rem; font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+    .cart-total-num { font-family: var(--font-serif); font-size: 1.5rem; }
+    .free-shipping-notice { background: #E8F5E9; color: #2E7D32; padding: 0.5rem; border-radius: 2px; font-size: 0.75rem; text-align: center; margin-bottom: 1rem; font-weight: 600; }
+
+    .academic-modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(18, 16, 15, 0.65); backdrop-filter: blur(5px);
+      z-index: 2000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: var(--transition); padding: 1.5rem;
+    }
+    .academic-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .academic-modal {
+      background: #FFFFFF; max-width: 480px; width: 100%; padding: 2.8rem 2.2rem;
+      border-radius: 4px; text-align: center; position: relative;
+      border: 1px solid var(--border-subtle); box-shadow: var(--shadow-lg);
+      transform: scale(0.92); transition: var(--transition);
+    }
+    .academic-modal-overlay.open .academic-modal { transform: scale(1); }
+    .modal-icon-wrap {
+      width: 58px; height: 58px; background: var(--accent-blush);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.4rem; color: var(--accent-rose-dark); font-size: 1.5rem;
+    }
+    .academic-modal h3 { font-size: 1.9rem; margin-bottom: 1rem; color: var(--text-main); }
+    .academic-modal p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem; }
+
+    footer { background: #141211; color: #FAF7F5; padding: 4.5rem 0 2rem; margin-top: 5rem; font-size: 0.85rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3.5rem; }
+    .footer-col h4 { font-family: var(--font-sans); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.15em; margin-bottom: 1.2rem; color: var(--accent-rose); }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a { color: #A8A29E; }
+    .footer-col a:hover { color: #FFFFFF; padding-left: 4px; }
+    .footer-brand { font-family: var(--font-serif); font-size: 2.2rem; letter-spacing: 0.2em; font-weight: 700; margin-bottom: 0.8rem; color: #fff; }
+    .footer-brand span { color: var(--accent-rose); }
+    .footer-desc { color: #A8A29E; line-height: 1.6; margin-bottom: 1.2rem; }
+    .social-links { display: flex; gap: 1rem; }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: #23201E; display: flex; align-items: center; justify-content: center; color: #fff; transition: var(--transition); }
+    .social-link:hover { background: var(--accent-rose-dark); }
+    .footer-disclaimer-box { border-top: 1px solid #282422; padding-top: 2rem; text-align: center; }
+    .official-disclaimer { max-width: 820px; margin: 0 auto; font-size: 0.8rem; color: #A8A29E; line-height: 1.6; background: #1C1917; padding: 1.2rem; border-radius: 4px; border: 1px solid #332E2B; }
+
+    @media (max-width: 960px) {
+      .detail-cta-row { flex-wrap: wrap; }
+      .detail-cta-row .btn-primary, .detail-cta-row .btn-secondary { min-height: 46px; }
+      .hero-img { height: 380px; }
+    
+      .hero-grid, .detail-grid, .footer-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 2.7rem; }
+      nav.main-menu { display: none; }
+      .mobile-toggle { display: block; }
+      nav.main-menu.mobile-open {
+        display: flex; flex-direction: column; position: absolute; top: 80px; left: 0;
+        width: 100%; background: #fff; padding: 2rem; box-shadow: var(--shadow-md);
+      }
+      .search-box { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AVISO SUPERIOR DISCRETO -->
+  <aside class="top-notification" aria-label="Aviso del proyecto">
+    PROYECTO ACADÉMICO TDR — <span>TIENDA FICTICIA DE PERFUMERÍA</span> — NO SE REALIZAN VENTAS
+  </aside>
+
+  <!-- CABECERA -->
+  <header>
+    <div class="container nav-container">
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">☰</button>
+
+      <a href="javascript:void(0)" onclick="navigateTo('home')" class="brand-logo">
+        LUMÉ<span>.</span>
+      </a>
+
+      <nav class="main-menu" id="mainNav">
+        <a href="javascript:void(0)" class="nav-link active" id="nav-home" onclick="navigateTo('home')">Inicio</a>
+        <a href="javascript:void(0)" class="nav-link" id="nav-catalog" onclick="navigateTo('catalog')">Perfumes</a>
+        <a href="javascript:void(0)" class="nav-link" id="nav-brands" onclick="navigateTo('brands')">Marcas</a>
+        <a href="javascript:void(0)" class="nav-link" id="nav-offers" onclick="navigateTo('offers')">Ofertas</a>
+        <a href="javascript:void(0)" class="nav-link" id="nav-about" onclick="navigateTo('about')">Nosotros</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Buscar perfumes..." onkeyup="handleSearch(this.value)" />
+        </div>
+
+        <button class="icon-btn" onclick="showAcademicModal('header_account')" title="Mi Cuenta" aria-label="Mi Cuenta">
+          👤
+        </button>
+
+        <button class="icon-btn" onclick="toggleCart()" title="Cesta" aria-label="Cesta">
+          🛍️
+          <span class="cart-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main>
+    <!-- VISTA: INICIO -->
+    <section id="view-home" class="view-section active">
+      <div class="hero-banner">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-content">
+              <span class="hero-tagline">
+                <span class="badge-offer">OFERTA</span> Edición Limitada
+              </span>
+              <h1 class="hero-title">Miss Dior<br>Eau de Parfum</h1>
+              <p class="hero-subtitle">
+                Una estela floral aterciopelada y sensual con mil notas multicolores de Rosa Centifolia, envuelta en un lazo de alta costura tejido artesanalmente.
+              </p>
+              <div class="hero-price-box">
+                <span class="hero-old-price">86,65 €</span>
+                <span class="hero-new-price">51,99 €</span>
+              </div>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn-primary" onclick="openMissDiorAndBuy()">Comprar ahora</button>
+                <button class="btn-secondary" onclick="navigateTo('detail-miss-dior')">Descubrir fragancia</button>
+              </div>
+            </div>
+            <div class="hero-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80" alt="Miss Dior Eau de Parfum" class="hero-img" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="features-strip">
+        <div class="container features-grid">
+          <div class="feature-item">
+            <h4>Envío Gratuito</h4>
+            <p>En todos los pedidos superiores a 40 €</p>
+          </div>
+          <div class="feature-item">
+            <h4>Muestras de Regalo</h4>
+            <p>2 miniaturas premium con cada pedido</p>
+          </div>
+          <div class="feature-item">
+            <h4>100% Autenticidad</h4>
+            <p>Perfumes garantizados y precintados</p>
+          </div>
+          <div class="feature-item">
+            <h4>Atención Exclusiva</h4>
+            <p>Asesoramiento olfativo personalizado</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="container" style="padding: 4rem 1.5rem 2rem;">
+        <div class="section-head">
+          <span class="subtitle">Alta Perfumería</span>
+          <h2>Fragancias Icónicas</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+            Las creaciones olfativas más codiciadas de las grandes casas internacionales.
+          </p>
+        </div>
+        <div class="products-grid" id="home-featured-grid"></div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <button class="btn-secondary" onclick="navigateTo('catalog')">Ver catálogo completo (10 perfumes)</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- VISTA: CATÁLOGO -->
+    <section id="view-catalog" class="view-section">
+      <div class="container" style="padding: 3.5rem 1.5rem 5rem;">
+        <div class="section-head">
+          <span class="subtitle">Catálogo Completo</span>
+          <h2>Todos los Perfumes</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+            Explora fragancias originales de Dior, Chanel, Yves Saint Laurent, Lancôme, Carolina Herrera y más.
+          </p>
+        </div>
+        <div class="products-grid" id="catalog-grid"></div>
+      </div>
+    </section>
+
+    <!-- VISTA: MARCAS -->
+    <section id="view-brands" class="view-section">
+      <div class="container" style="padding: 3.5rem 1.5rem 5rem;">
+        <div class="section-head">
+          <span class="subtitle">Maisons & Creadores</span>
+          <h2>Nuestras Marcas</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+            Colaboramos simbólicamente con las firmas más prestigiosas de la perfumería mundial.
+          </p>
+        </div>
+
+        <div class="brands-index">
+          <div class="brand-tile" onclick="filterByBrand('Dior')">
+            <h3>Dior</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Chanel')">
+            <h3>Chanel</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Yves Saint Laurent')">
+            <h3>Yves Saint Laurent</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Lancôme')">
+            <h3>Lancôme</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Carolina Herrera')">
+            <h3>Carolina Herrera</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Giorgio Armani')">
+            <h3>Giorgio Armani</h3>
+            <span>Ver creaciones</span>
+          </div>
+          <div class="brand-tile" onclick="filterByBrand('Rabanne')">
+            <h3>Rabanne</h3>
+            <span>Ver creaciones</span>
+          </div>
+        </div>
+
+        <div id="brand-filtered-results" style="margin-top: 2rem;">
+          <h3 id="brand-filter-title" style="font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center;"></h3>
+          <div class="products-grid" id="brands-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA: OFERTAS -->
+    <section id="view-offers" class="view-section">
+      <div class="container" style="padding: 3.5rem 1.5rem 5rem;">
+        <div class="section-head">
+          <span class="subtitle">Promociones Especiales</span>
+          <h2>Ofertas Exclusivas</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+            Precios rebajados en fragancias selectas por tiempo limitado.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 2rem; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem;">
+          <div>
+            <span class="badge-offer" style="margin-bottom: 0.5rem;">DESCUENTO DESTACADO -40%</span>
+            <h3 style="font-size: 1.9rem; margin-top: 0.3rem;">Miss Dior Eau de Parfum</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">De <span style="text-decoration: line-through;">86,65 €</span> a tan solo <strong>51,99 €</strong></p>
+          </div>
+          <div style="display: flex; gap: 0.8rem;">
+            <button class="btn-primary" onclick="addToCartById(1, 1, 'offers_banner')">Añadir a la cesta</button>
+            <button class="btn-secondary" onclick="navigateTo('detail-miss-dior')">Ver detalles</button>
+          </div>
+        </div>
+
+        <div class="products-grid" id="offers-grid"></div>
+      </div>
+    </section>
+
+    <!-- VISTA: FICHA MISS DIOR -->
+    <section id="view-detail-miss-dior" class="view-section">
+      <div class="container product-detail-page">
+        <div class="breadcrumb">
+          <a href="javascript:void(0)" onclick="navigateTo('home')">Inicio</a> / 
+          <a href="javascript:void(0)" onclick="navigateTo('catalog')">Perfumes Mujer</a> / 
+          <span>Miss Dior Eau de Parfum</span>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-gallery">
+            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1000&q=85" alt="Miss Dior Eau de Parfum Botella" class="detail-main-img" />
+          </div>
+
+          <div class="detail-info">
+            <span class="detail-brand">Dior</span>
+            <h1 class="detail-name">Miss Dior Eau de Parfum</h1>
+            
+            <div class="detail-rating">
+              ★★★★★ <span>4.9 / 5 (128 valoraciones)</span>
+            </div>
+
+            <div class="detail-price-box">
+              <span class="detail-current-price">51,99 €</span>
+              <span class="detail-old-price">86,65 €</span>
+              <span class="detail-discount-pill">-40% DTO</span>
+            </div>
+
+            <p class="detail-desc">
+              Miss Dior Eau de Parfum reinventa su estela con un bouquet floral luminoso y apasionado. Una explosión de rosas de Grasse acariciadas por el frescor del muguete y el lirio silvestre, acentuadas por notas de peonía ligera y envueltas en un fondo aterciopelado de almizcles delicados y vainilla suave.
+            </p>
+
+            <div class="notes-box">
+              <h4>Pirámide Olfativa</h4>
+              <div class="note-row"><span class="note-label">Notas de Salida:</span><span class="note-val">Lirio de los valles, Peonía, Lirio silvestre</span></div>
+              <div class="note-row"><span class="note-label">Notas de Corazón:</span><span class="note-val">Rosa centifolia aterciopelada de Grasse, Melocotón</span></div>
+              <div class="note-row"><span class="note-label">Notas de Fondo:</span><span class="note-val">Almizcles blancos, Vainilla de Papúa Nueva Guinea, Benjuí, Haba tonka</span></div>
+            </div>
+
+            <div class="size-selector">
+              <label>Tamaño:</label>
+              <div class="size-pills">
+                <button class="size-pill" onclick="selectSize(this, '30 ml')">30 ml</button>
+                <button class="size-pill active" onclick="selectSize(this, '50 ml')">50 ml</button>
+                <button class="size-pill" onclick="selectSize(this, '100 ml')">100 ml</button>
+              </div>
+            </div>
+
+            <div class="detail-cta-row">
+              <div class="qty-picker">
+                <button class="qty-btn" onclick="changeDetailQty(-1)">−</button>
+                <div class="qty-num" id="detailQty">1</div>
+                <button class="qty-btn" onclick="changeDetailQty(1)">+</button>
+              </div>
+              <button class="btn-primary" style="flex-grow: 1;" onclick="addMissDiorFromDetail()">Añadir a la cesta</button>
+              <button class="btn-secondary" onclick="buyMissDiorNow()">Comprar ahora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA: NOSOTROS -->
+    <section id="view-about" class="view-section">
+      <div class="container about-wrapper">
+        <div class="about-card">
+          <span class="academic-tag">Proyecto de Investigación (TDR)</span>
+          <h2>Sobre LUMÉ</h2>
+          <p>
+            Bienvenido a <strong>LUMÉ</strong>, un portal de perfumería de alta gama concebido y desarrollado exclusivamente como parte de un <strong>Trabajo de Investigación (Treball de Recerca / TDR)</strong> de Bachillerato.
+          </p>
+          <div class="about-highlight">
+            “El objetivo principal de este trabajo es analizar la experiencia de usuario (UX/UI), el comportamiento del consumidor y la psicología de compra en el sector del e-commerce de lujo y la perfumería digital.”
+          </div>
+          <p>
+            Para recrear una atmósfera creíble, la tienda ha sido dotada de una interfaz completa y fotorrealista inspirada en los estándares de las perfumerías más reconocidas (como Dior, Druni o Primor), cuidando minuciosamente la estética, las tipografías, la arquitectura de la información y la cesta de compras.
+          </p>
+          <p>
+            <strong>Aviso de seguridad y privacidad:</strong> Esta plataforma no almacena datos de pago, números de tarjetas de crédito ni datos personales reales. No existe ninguna transacción monetaria en funcionamiento.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CARRITO LATERAL -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Cesta de compra">
+    <div class="cart-header">
+      <h3>Mi Cesta</h3>
+      <button class="close-btn" onclick="toggleCart()">✕</button>
+    </div>
+
+    <div class="cart-items-wrap" id="cartItemsList"></div>
+
+    <div class="cart-footer">
+      <div class="free-shipping-notice">
+        ✓ Envío gratuito aplicado
+      </div>
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">0,00 €</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total (IVA inc.)</span>
+        <span class="cart-total-num" id="cartTotal">0,00 €</span>
+      </div>
+      <button class="btn-primary" style="width: 100%; text-align: center;" onclick="checkoutFromCart()">
+        Tramitar Pedido
+      </button>
+    </div>
+  </aside>
+
+  <!-- POPUP ACADÉMICO -->
+  <div class="academic-modal-overlay" id="academicModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="academic-modal">
+      <div class="modal-icon-wrap">ℹ️</div>
+      <h3 id="modalTitle">Compra no disponible</h3>
+      <p>
+        Hola, soy una alumna que está realizando un Trabajo de Investigación (TDR). Esta web forma parte exclusivamente de un proyecto académico y las compras no son reales. Sentimos las molestias y muchas gracias por participar.
+      </p>
+      <button class="btn-primary" style="width: 100%;" onclick="closeAcademicModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">LUMÉ<span>.</span></div>
+          <p class="footer-desc">
+            Boutique digital de fragancias de autor y perfumería de prestigio concebida para el análisis académico del diseño y el comercio digital de lujo.
+          </p>
+          <div class="social-links">
+            <a href="javascript:void(0)" class="social-link" onclick="showAcademicModal('footer_ig')">IG</a>
+            <a href="javascript:void(0)" class="social-link" onclick="showAcademicModal('footer_fb')">FB</a>
+            <a href="javascript:void(0)" class="social-link" onclick="showAcademicModal('footer_tt')">TT</a>
+            <a href="javascript:void(0)" class="social-link" onclick="showAcademicModal('footer_pt')">PT</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="navigateTo('home')">Inicio</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('catalog')">Perfumes</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('brands')">Marcas</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('offers')">Ofertas</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('about')">El Proyecto (Nosotros)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Marcas</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Dior')">Dior</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Chanel')">Chanel</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Yves Saint Laurent')">Yves Saint Laurent</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Lancôme')">Lancôme</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Carolina Herrera')">Carolina Herrera</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Giorgio Armani')">Giorgio Armani</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Rabanne')">Rabanne</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Información</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="showAcademicModal('footer_shipping')">Envíos</a></li>
+            <li><a href="javascript:void(0)" onclick="showAcademicModal('footer_returns')">Devoluciones</a></li>
+            <li><a href="javascript:void(0)" onclick="showAcademicModal('footer_privacy')">Privacidad</a></li>
+            <li><a href="javascript:void(0)" onclick="showAcademicModal('footer_contact')">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-disclaimer-box">
+        <p class="official-disclaimer">
+          <strong>Proyecto académico TDR:</strong> LUMÉ es una tienda ficticia creada exclusivamente con fines de investigación. No se realizan ventas, cobros ni transacciones reales.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ================================================================
+    // LUMÉ — JAVASCRIPT
+    // Web académica: no existen compras ni pagos reales.
+    // ================================================================
+
+    const PRODUCTS = [
+      { id: 1, brand: 'Dior', name: 'Miss Dior Eau de Parfum', price: 51.99, oldPrice: 86.65, rating: 4.9, reviews: 128, image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 2, brand: 'Yves Saint Laurent', name: 'Libre Eau de Parfum', price: 74.50, oldPrice: 98.00, rating: 4.8, reviews: 94, image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 3, brand: 'Chanel', name: 'Coco Mademoiselle', price: 112.00, oldPrice: null, rating: 4.9, reviews: 176, image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=80', offer: false },
+      { id: 4, brand: 'Lancôme', name: 'La Vie Est Belle', price: 68.90, oldPrice: 89.00, rating: 4.8, reviews: 143, image: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 5, brand: 'Carolina Herrera', name: 'Good Girl Eau de Parfum', price: 79.00, oldPrice: 95.00, rating: 4.7, reviews: 111, image: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 6, brand: 'Giorgio Armani', name: 'Sì Eau de Parfum', price: 72.00, oldPrice: 92.00, rating: 4.8, reviews: 86, image: 'https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 7, brand: 'Rabanne', name: 'Fame Parfum', price: 69.95, oldPrice: 85.00, rating: 4.6, reviews: 63, image: 'https://images.unsplash.com/photo-1563170351-be82bc888aa4?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 8, brand: 'Dior', name: 'J’adore Eau de Parfum', price: 84.00, oldPrice: 105.00, rating: 4.9, reviews: 152, image: 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 9, brand: 'Yves Saint Laurent', name: 'Black Opium', price: 76.50, oldPrice: 96.00, rating: 4.8, reviews: 121, image: 'https://images.unsplash.com/photo-1619994403073-2b7d5b9a6e9a?auto=format&fit=crop&w=800&q=80', offer: true },
+      { id: 10, brand: 'Chanel', name: 'Chance Eau Tendre', price: 108.00, oldPrice: null, rating: 4.8, reviews: 137, image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80', offer: false }
+    ];
+
+    let cart = [];
+    let detailQty = 1;
+    let selectedSize = '50 ml';
+
+    function euro(value) {
+      return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value);
+    }
+
+    function trackEvent(eventName, params = {}) {
+      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+        gtag('event', eventName, params);
+      }
+      console.log('[GA4 TDR Track]', eventName, params);
+    }
+
+    function campaignParams() {
+      const p = new URLSearchParams(window.location.search);
+      return {
+        utm_source: p.get('utm_source') || '(direct)',
+        utm_medium: p.get('utm_medium') || '(none)',
+        utm_campaign: p.get('utm_campaign') || '(none)'
+      };
+    }
+
+    function navigateTo(view) {
+      document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
+      const target = document.getElementById('view-' + view);
+      if (!target) return;
+      target.classList.add('active');
+
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      const navTarget = document.getElementById('nav-' + (view === 'detail-miss-dior' ? 'catalog' : view));
+      if (navTarget) navTarget.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      closeMobileMenu();
+      trackEvent('page_view_virtual', { page_title: view, ...campaignParams() });
+    }
+
+    function productCard(product, source = 'catalog') {
+      const badge = product.offer ? '<span class="badge-offer">OFERTA</span>' : '';
+      const old = product.oldPrice ? `<span class="price-original">${euro(product.oldPrice)}</span>` : '';
+      const stars = '★★★★★';
+      return `
+        <article class="product-card">
+          ${product.offer ? `<div class="card-badge">${badge}</div>` : ''}
+          <div class="product-thumb" onclick="openProduct(${product.id}, '${source}')">
+            <img src="${product.image}" alt="${product.name}" loading="lazy">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">${product.brand}</div>
+            <h3 class="product-title" onclick="openProduct(${product.id}, '${source}')">${product.name}</h3>
+            <div class="product-rating">${stars}<span>${product.rating} (${product.reviews})</span></div>
+            <div class="product-pricing"><span class="price-current">${euro(product.price)}</span>${old}</div>
+            <button class="btn-add-cart" onclick="addToCartById(${product.id}, 1, '${source}')">Añadir a la cesta</button>
+          </div>
+        </article>`;
+    }
+
+    function renderProducts() {
+      const featured = document.getElementById('home-featured-grid');
+      const catalog = document.getElementById('catalog-grid');
+      const offers = document.getElementById('offers-grid');
+      if (featured) featured.innerHTML = PRODUCTS.slice(0, 4).map(p => productCard(p, 'home_featured')).join('');
+      if (catalog) catalog.innerHTML = PRODUCTS.map(p => productCard(p, 'catalog')).join('');
+      if (offers) offers.innerHTML = PRODUCTS.filter(p => p.offer).map(p => productCard(p, 'offers')).join('');
+    }
+
+    function openProduct(id, source = 'catalog') {
+      if (id === 1) {
+        trackEvent('view_item', { item_id: '1', item_name: 'Miss Dior Eau de Parfum', item_brand: 'Dior', source, ...campaignParams() });
+        navigateTo('detail-miss-dior');
+        return;
+      }
+      const product = PRODUCTS.find(p => p.id === id);
+      if (!product) return;
+      trackEvent('view_item', { item_id: String(id), item_name: product.name, item_brand: product.brand, source, ...campaignParams() });
+      showAcademicModal('product_detail_' + id);
+    }
+
+    function filterByBrand(brand) {
+      navigateTo('brands');
+      const matches = PRODUCTS.filter(p => p.brand === brand);
+      document.getElementById('brand-filter-title').textContent = brand + ' — Creaciones';
+      document.getElementById('brands-grid').innerHTML = matches.length
+        ? matches.map(p => productCard(p, 'brand_filter')).join('')
+        : '<p style="text-align:center;color:var(--text-muted)">No hay productos disponibles.</p>';
+      trackEvent('select_brand', { brand, ...campaignParams() });
+    }
+
+    function handleSearch(value) {
+      const query = value.trim().toLowerCase();
+      if (!query) return;
+      navigateTo('catalog');
+      const results = PRODUCTS.filter(p => (p.name + ' ' + p.brand).toLowerCase().includes(query));
+      document.getElementById('catalog-grid').innerHTML = results.length
+        ? results.map(p => productCard(p, 'search')).join('')
+        : '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem">No hemos encontrado esa fragancia.</p>';
+    }
+
+    function addToCartById(id, qty = 1, source = 'unknown') {
+      const product = PRODUCTS.find(p => p.id === id);
+      if (!product) return;
+      const existing = cart.find(item => item.id === id && item.size === '50 ml');
+      if (existing) existing.qty += qty;
+      else cart.push({ id, size: '50 ml', qty });
+      renderCart();
+      trackEvent('add_to_cart', {
+        item_id: String(id), item_name: product.name, item_brand: product.brand,
+        quantity: qty, value: product.price * qty, currency: 'EUR', source, ...campaignParams()
+      });
+      toggleCart(true);
+      showAcademicModal('add_to_cart_' + id);
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cartItemsList');
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartCount').textContent = count;
+      if (!cart.length) {
+        list.innerHTML = '<div class="cart-empty">Tu cesta está vacía.</div>';
+      } else {
+        list.innerHTML = cart.map(item => {
+          const p = PRODUCTS.find(x => x.id === item.id);
+          return `<div class="cart-item">
+            <img src="${p.image}" alt="${p.name}">
+            <div class="cart-item-details">
+              <div class="cart-item-brand">${p.brand}</div>
+              <div class="cart-item-name">${p.name}</div>
+              <div class="cart-item-price">${euro(p.price * item.qty)}</div>
+              <div class="cart-item-controls">
+                <div class="cart-qty-ctrl">
+                  <button onclick="changeCartQty(${item.id}, -1)">−</button>
+                  <span>${item.qty}</span>
+                  <button onclick="changeCartQty(${item.id}, 1)">+</button>
+                </div>
+                <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">Eliminar</button>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      const total = cart.reduce((sum, item) => {
+        const p = PRODUCTS.find(x => x.id === item.id);
+        return sum + p.price * item.qty;
+      }, 0);
+      document.getElementById('cartSubtotal').textContent = euro(total);
+      document.getElementById('cartTotal').textContent = euro(total);
+    }
+
+    function changeCartQty(id, delta) {
+      const item = cart.find(x => x.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+      renderCart();
+      trackEvent('cart_quantity_change', { item_id: String(id), delta, ...campaignParams() });
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(x => x.id !== id);
+      renderCart();
+      trackEvent('remove_from_cart', { item_id: String(id), ...campaignParams() });
+    }
+
+    function toggleCart(forceOpen) {
+      const drawer = document.getElementById('cartDrawer');
+      const overlay = document.getElementById('cartOverlay');
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !drawer.classList.contains('open');
+      drawer.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+      document.body.style.overflow = shouldOpen ? 'hidden' : '';
+      if (shouldOpen) trackEvent('view_cart', { ...campaignParams() });
+    }
+
+    function checkoutFromCart() {
+      trackEvent('begin_checkout', { value: Number(document.getElementById('cartTotal').textContent.replace(/[^0-9,]/g, '').replace(',', '.')) || 0, currency: 'EUR', ...campaignParams() });
+      showAcademicModal('checkout');
+    }
+
+    function showAcademicModal(source = 'unknown') {
+      trackEvent('academic_modal_view', { source, ...campaignParams() });
+      document.getElementById('academicModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAcademicModal() {
+      document.getElementById('academicModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function openMissDiorAndBuy() {
+      trackEvent('select_promotion', { item_id: '1', item_name: 'Miss Dior Eau de Parfum', source: 'hero_banner', ...campaignParams() });
+      // IMPORTANTE: Comprar ahora NO añade el producto al carrito.
+      showAcademicModal('hero_banner_buy_now');
+    }
+
+    function buyMissDiorNow() {
+      // IMPORTANTE: Comprar ahora NO añade el producto al carrito.
+      trackEvent('select_promotion', { item_id: '1', item_name: 'Miss Dior Eau de Parfum', source: 'detail_buy_now', ...campaignParams() });
+      showAcademicModal('detail_buy_now');
+    }
+
+    function addMissDiorFromDetail() {
+      addToCartById(1, detailQty, 'detail_add_to_cart');
+    }
+
+    function selectSize(button, size) {
+      document.querySelectorAll('.size-pill').forEach(b => b.classList.remove('active'));
+      button.classList.add('active');
+      selectedSize = size;
+      trackEvent('select_item_size', { item_id: '1', size, ...campaignParams() });
+    }
+
+    function changeDetailQty(delta) {
+      detailQty = Math.max(1, Math.min(10, detailQty + delta));
+      document.getElementById('detailQty').textContent = detailQty;
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mainNav').classList.toggle('mobile-open');
+    }
+
+    function closeMobileMenu() {
+      document.getElementById('mainNav').classList.remove('mobile-open');
+    }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeAcademicModal();
+        toggleCart(false);
+        closeMobileMenu();
+      }
+    });
+
+    document.getElementById('academicModal').addEventListener('click', event => {
+      if (event.target.id === 'academicModal') closeAcademicModal();
+    });
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+      renderCart();
+      trackEvent('landing_page', campaignParams());
+    });
+  </script>
+</body>
+</html>
