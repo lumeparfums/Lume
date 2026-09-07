@@ -7,11 +7,11 @@
   
   <!-- ========================================================================= -->
   <!-- GOOGLE ANALYTICS 4 (GA4) PARA EL TDR                                      -->
-  <!-- Sustituye 'G-XXXXXXXXXX' por tu ID de medición real de Google Analytics.   -->
+  <!-- Sustituye 'G-DXGP10T6VM' por tu ID de medición real de Google Analytics.   -->
   <!-- ========================================================================= -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGP10T6VM"></script>
   <script>
-    const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // <- PEGA TU ID AQUÍ
+    const GA_MEASUREMENT_ID = 'G-DXGP10T6VM'; // <- PEGA TU ID AQUÍ
 
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
@@ -24,7 +24,7 @@
 
     // Función auxiliar para registrar eventos con trazabilidad en la consola para tu estudio
     function trackEvent(eventName, params = {}) {
-      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-DXGP10T6VM') {
         gtag('event', eventName, params);
       }
       // Log visible en consola (F12) para que puedas verificar que funciona al hacer pruebas
