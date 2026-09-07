@@ -798,7 +798,7 @@
     }
 
     function trackEvent(eventName, params = {}) {
-      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+      if (typeof gtag === 'function' && GA_MEASUREMENT_ID !== 'G-DXGP10T6VM') {
         gtag('event', eventName, params);
       }
       console.log('[GA4 TDR Track]', eventName, params);
