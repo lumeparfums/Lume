@@ -17,6 +17,14 @@
       utm_campaign: params.get('utm_campaign') || 'lume_tdr',
       utm_content: params.get('utm_content') || 'sin_contenido'
     });
+    
+    // Nuevo: evento específico para GTM
+    if (params.get('utm_content')) {
+      window.dataLayer.push({
+        event: 'visita_cartel',
+        utm_content: params.get('utm_content')
+      });
+    }
   })();
 </script>
 
