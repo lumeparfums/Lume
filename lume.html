@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMÉ | Haute Parfumerie & Édition</title>
+
+  <!-- ========================================================================= -->
+  <!-- GOOGLE ANALYTICS 4 (GA4) CON DETECCIÓN UTM PARA EL TDR                     -->
+  <!-- ========================================================================= -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGP10T6VM"></script>
+  <script>
+    const GA_MEASUREMENT_ID = 'G-DXGP10T6VM';
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Lectura de parámetros UTM para el experimento del TDR (Tradicional vs Moderno)
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get('utm_source') || 'directo';
+    const utmMedium = urlParams.get('utm_medium') || 'ninguno';
+    const utmCampaign = urlParams.get('utm_campaign') || 'lume_tdr';
+
+    // Inicialización de GA4 enviando las dimensiones del experimento
+    gtag('config', GA_MEASUREMENT_ID, {
+      send_page_view: false,
+      campaign_source: utmSource,
+      campaign_medium: utmMedium,
+      campaign_name: utmCampaign
+    });
+
+    // Helper unificado para enviar eventos con trazabilidad en consola
+    function trackEvent(eventName, params = {}) {
+      const enrichedParams = {
+        ...params,
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign
+      };
+
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, enrichedParams);
+      }
+      console.log(`%c[GA4 TDR] ${eventName}`, 'background: #3B131E; color: #F5E8E5; padding: 2px 6px; border-radius: 2px; font-weight: bold;', enrichedParams);
+    }
+  </script>
+
+  <!-- Tipografías de Alta Perfumería -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================================
+       SISTEMA DE DISEÑO EDITORIAL LUMÉ
+       ========================================================================= */
+    :root {
+      --bg-body: #FFFFFF;
+      --bg-cream: #FAF8F5;
+      --bg-blush: #F9EFEF;
+      --bg-dark-burgundy: #36141D;
+      --bg-wine-accent: #4A1B27;
+      --bg-pitch-black: #0C0B0B;
+
+      --text-main: #141312;
+      --text-muted: #6E6864;
+      --text-light: #FAF8F5;
+      --text-burgundy: #4A1B27;
+
+      --border-subtle: #ECE8E3;
+      --border-dark: #2B2827;
+
+      --font-serif-display: 'Italiana', serif;
+      --font-serif-title: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Montserrat', sans-serif;
+
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-serif {
+      font-family: var(--font-serif-title);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    button {
+      font-family: var(--font-sans);
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .editorial-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      display: block;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.15;
+      font-family: var(--font-serif-display);
+      margin-bottom: 1.2rem;
+      color: var(--text-main);
+    }
+
+    /* BOTONES EDITORIALES REFINADOS */
+    .btn-luxury {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 2.4rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 0;
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-luxury-dark {
+      background-color: var(--text-main);
+      color: #FFFFFF;
+      border: 1px solid var(--text-main);
+    }
+    .btn-luxury-dark:hover {
+      background-color: var(--bg-dark-burgundy);
+      border-color: var(--bg-dark-burgundy);
+      letter-spacing: 0.25em;
+    }
+
+    .btn-luxury-outline {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--text-main);
+    }
+    .btn-luxury-outline:hover {
+      background-color: var(--text-main);
+      color: #FFFFFF;
+    }
+
+    .btn-luxury-light {
+      background-color: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid #FFFFFF;
+    }
+    .btn-luxury-light:hover {
+      background-color: transparent;
+      color: #FFFFFF;
+    }
+
+    /* =========================================================================
+       1. BARRA SUPERIOR
+       ========================================================================= */
+    .announcement-bar {
+      background-color: var(--bg-dark-burgundy);
+      color: #F8EFEF;
+      padding: 0.6rem 1rem;
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    .announcement-bar strong {
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    /* =========================================================================
+       2. NAVBAR
+       ========================================================================= */
+    .header-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 85px;
+    }
+
+    .logo-lumé {
+      font-family: var(--font-serif-display);
+      font-size: 2.3rem;
+      letter-spacing: 0.16em;
+      color: var(--text-main);
+      font-weight: 400;
+    }
+
+    .nav-links-center {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links-center a {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--text-main);
+      position: relative;
+      padding: 0.4rem 0;
+    }
+
+    .nav-links-center a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: var(--text-main);
+      transition: var(--transition-smooth);
+    }
+
+    .nav-links-center a:hover::after,
+    .nav-links-center a.active::after {
+      width: 100%;
+    }
+
+    .nav-icons-right {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
+
+    .icon-btn {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      position: relative;
+      padding: 0.4rem;
+    }
+    .icon-btn:hover {
+      color: var(--bg-dark-burgundy);
+    }
+
+    .cart-counter {
+      position: absolute;
+      top: 0px;
+      right: -4px;
+      background: var(--bg-dark-burgundy);
+      color: #FFF;
+      font-size: 0.6rem;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .burger-btn {
+      display: none;
+      font-size: 1.4rem;
+    }
+
+    /* Buscador elegante desplegable */
+    .search-bar-inline {
+      position: relative;
+    }
+    .search-input-header {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-cream);
+      padding: 0.45rem 1rem 0.45rem 2rem;
+      font-size: 0.75rem;
+      font-family: var(--font-sans);
+      letter-spacing: 0.05em;
+      outline: none;
+      width: 150px;
+      transition: var(--transition-smooth);
+    }
+    .search-input-header:focus {
+      width: 220px;
+      border-color: var(--text-main);
+      background: #FFFFFF;
+    }
+    .search-icon-pos {
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       CONTROLADOR DE VISTAS (SPA)
+       ========================================================================= */
+    .spa-view {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .spa-view.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* =========================================================================
+       3. HERO PRINCIPAL
+       ========================================================================= */
+    .editorial-hero {
+      background: var(--bg-blush);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0;
+    }
+
+    .editorial-hero .container {
+      max-width: none;
+      padding: 0;
+    }
+
+    .hero-split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.25fr;
+      align-items: stretch;
+      gap: 0;
+      min-height: 570px;
+    }
+
+    .hero-content-left {
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem clamp(2rem, 7vw, 7rem);
+    }
+
+    .hero-tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-burgundy);
+      font-weight: 600;
+      margin-bottom: 1.4rem;
+      display: block;
+    }
+
+    .hero-headline {
+      font-family: var(--font-serif-display);
+      font-size: clamp(3rem, 5vw, 4.8rem);
+      line-height: 1.05;
+      color: var(--text-main);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+      max-width: 460px;
+    }
+
+    .hero-image-right {
+      position: relative;
+    }
+    .hero-image-right {
+      min-height: 570px;
+      overflow: hidden;
+    }
+    .hero-image-right img {
+      width: 100%;
+      height: 100%;
+      min-height: 570px;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.99);
+    }
+
+    /* =========================================================================
+       4. SECCIÓN MARCAS DESTACADAS ("Descubre más")
+       ========================================================================= */
+    .brands-section {
+      padding: 7rem 0 5rem;
+      background: #FFFFFF;
+    }
+
+    .brands-section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .brands-triptych {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+
+    .brand-card-editorial {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      group: brand;
+      background: var(--bg-cream);
+    }
+
+    .brand-card-img-wrap {
+      height: 250px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .brand-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .brand-card-editorial:hover .brand-card-img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .brand-card-meta {
+      padding: 1.8rem 0;
+      text-align: center;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .brand-card-title {
+      font-family: var(--font-serif-display);
+      font-size: 1.7rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.3rem;
+    }
+    .brand-card-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================================
+       5. SECCIÓN "MÁS VENDIDOS" & TARJETAS DE PRODUCTO
+       ========================================================================= */
+    .bestsellers-section {
+      padding: 6rem 0;
+      background: var(--bg-cream);
+    }
+
+    .editorial-head-center {
+      text-align: center;
+      margin-bottom: 4.5rem;
+    }
+
+    .product-grid-editorial {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 3rem 2.2rem;
+    }
+
+    .product-card-editorial {
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+    .product-card-editorial:hover {
+      border-color: var(--text-main);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+    }
+
+    .product-card-discount-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--bg-dark-burgundy);
+      color: #FFFFFF;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      font-weight: 500;
+      padding: 0.3rem 0.6rem;
+      z-index: 2;
+    }
+
+    .product-card-image-box {
+      width: 100%;
+      height: 330px;
+      background: #FDFDFD;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .product-card-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .product-card-editorial:hover .product-card-image-box img {
+      transform: scale(1.04);
+    }
+
+    .product-card-body {
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .product-card-brand {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .product-card-name {
+      font-family: var(--font-serif-title);
+      font-size: 1.2rem;
+      line-height: 1.3;
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+    }
+    .product-card-name:hover {
+      color: var(--text-burgundy);
+    }
+
+    .product-card-reviews {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      color: #9E7D46;
+      margin-bottom: 1.2rem;
+    }
+    .product-card-reviews span {
+      color: var(--text-muted);
+      margin-left: 0.3rem;
+    }
+
+    .product-card-prices {
+      margin-top: auto;
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      margin-bottom: 1.4rem;
+    }
+    .current-price {
+      font-family: var(--font-serif-title);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .old-price {
+      font-size: 0.85rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .product-card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .btn-card-action {
+      padding: 0.65rem 0.3rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 500;
+    }
+    .btn-card-add {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+    .btn-card-add:hover {
+      background: var(--text-main);
+      color: #FFF;
+      border-color: var(--text-main);
+    }
+    .btn-card-buy {
+      background: var(--text-main);
+      color: #FFF;
+      border: 1px solid var(--text-main);
+    }
+    .btn-card-buy:hover {
+      background: var(--bg-dark-burgundy);
+      border-color: var(--bg-dark-burgundy);
+    }
+
+    .product-card-heart {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      z-index: 4;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--border-subtle);
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+    .product-card-heart.is-favorite {
+      color: var(--text-burgundy);
+      background: var(--bg-blush);
+    }
+    .product-card-image-box.image-fallback {
+      background: linear-gradient(135deg, #fbf1ef, #f2dfdf);
+      position: relative;
+    }
+    .product-card-image-box.image-fallback::after {
+      content: 'LUMÉ';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-serif-display);
+      font-size: 2rem;
+      letter-spacing: 0.18em;
+      color: var(--text-burgundy);
+    }
+
+
+    #bestsellersContainer {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    #bestsellersContainer .product-card-image-box {
+      height: 250px;
+    }
+
+    #bestsellersContainer .product-card-body {
+      padding: 1rem;
+    }
+
+    #bestsellersContainer .product-card-name {
+      font-size: 0.98rem;
+    }
+
+    #bestsellersContainer .product-card-reviews {
+      font-size: 0.66rem;
+      margin-bottom: 0.8rem;
+    }
+
+    #bestsellersContainer .current-price {
+      font-size: 1.05rem;
+    }
+
+    #bestsellersContainer .product-card-actions {
+      grid-template-columns: 1fr;
+    }
+
+    #trendingContainer {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    /* =========================================================================
+       6. BANNER PROMOCIONAL
+       ========================================================================= */
+    .promotional-banner-split {
+      background: #FFFFFF;
+      padding: 6rem 0;
+    }
+
+    .banner-split-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: stretch;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .banner-img-half {
+      min-height: 360px;
+    }
+    .banner-img-half img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-text-half {
+      background: var(--bg-blush);
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .banner-text-half .editorial-label {
+      color: var(--text-burgundy);
+    }
+
+    .banner-promo-title {
+      font-family: var(--font-serif-display);
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .banner-promo-code {
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 2.2rem;
+    }
+    .banner-promo-code span {
+      font-weight: 600;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--text-main);
+      padding-bottom: 2px;
+    }
+
+    /* =========================================================================
+       7. SECCIÓN EDITORIAL "TU AROMA" (FONDO NEGRO)
+       ========================================================================= */
+    .editorial-noir {
+      background-color: var(--bg-pitch-black);
+      color: #FFFFFF;
+      padding: 7rem 0;
+    }
+
+    .noir-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .noir-text-col {
+      max-width: 500px;
+    }
+
+    .noir-text-col .editorial-label {
+      color: #C2A8A1;
+    }
+
+    .noir-headline {
+      font-family: var(--font-serif-display);
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      line-height: 1.12;
+      color: #FFFFFF;
+      margin-bottom: 1.8rem;
+    }
+
+    .noir-desc {
+      color: #A39D98;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .noir-img-col img {
+      width: 100%;
+      height: 540px;
+      object-fit: cover;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    /* =========================================================================
+       8. SECCIÓN "DE MODA"
+       ========================================================================= */
+    .trending-section {
+      padding: 7rem 0;
+      background: #FFFFFF;
+    }
+
+    /* =========================================================================
+       9. BLOQUE FINAL IMAGEN + TEXTO (BURDEOS)
+       ========================================================================= */
+    .burgundy-editorial-block {
+      background-color: var(--bg-dark-burgundy);
+      color: #FAF5F5;
+      padding: 6.5rem 0;
+    }
+
+    .burgundy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .burgundy-text-half .editorial-label {
+      color: #DAB8BF;
+    }
+
+    .burgundy-title {
+      font-family: var(--font-serif-display);
+      font-size: clamp(2.6rem, 4vw, 3.8rem);
+      line-height: 1.1;
+      margin-bottom: 1.6rem;
+      color: #FFFFFF;
+    }
+
+    .burgundy-quote {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #E8D4D8;
+      font-weight: 300;
+    }
+
+    .burgundy-img-half img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* =========================================================================
+       10. PÁGINA FICHA PRODUCTO DETALLADA (MISS DIOR)
+       ========================================================================= */
+    .product-detail-layout {
+      padding: 5rem 0 8rem;
+      background: #FFFFFF;
+    }
+
+    .breadcrumb-nav {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+    }
+    .breadcrumb-nav a:hover {
+      color: var(--text-burgundy);
+    }
+
+    .detail-split-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .detail-main-image-wrap {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      height: 640px;
+    }
+    .detail-main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .detail-info-pane {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-brand-badge {
+      font-size: 0.8rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-burgundy);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .detail-product-title {
+      font-family: var(--font-serif-display);
+      font-size: 3.2rem;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .detail-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: #9E7D46;
+      margin-bottom: 2rem;
+    }
+    .detail-rating-row span {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-left: 0.4rem;
+    }
+
+    .detail-pricing-panel {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 2rem;
+    }
+    .detail-active-price {
+      font-family: var(--font-serif-title);
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--text-burgundy);
+    }
+    .detail-struck-price {
+      font-size: 1.2rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .detail-discount-tag {
+      background: var(--bg-dark-burgundy);
+      color: #FFF;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.7rem;
+      font-weight: 500;
+    }
+
+    .detail-description-text {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 2.2rem;
+    }
+
+    .detail-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--text-main);
+      height: 48px;
+    }
+    .qty-stepper button {
+      width: 44px;
+      height: 100%;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-stepper span {
+      width: 40px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .detail-buttons-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    /* =========================================================================
+       11. CARRITO LATERAL (DRAWER)
+       ========================================================================= */
+    .cart-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(14, 13, 13, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(4px);
+    }
+    .cart-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cart-drawer-pane {
+      position: fixed;
+      top: 0;
+      right: -460px;
+      width: 440px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #FFFFFF;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -15px 0 45px rgba(0, 0, 0, 0.1);
+      transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cart-drawer-pane.open {
+      right: 0;
+    }
+
+    .cart-drawer-top {
+      padding: 1.8rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-drawer-title {
+      font-family: var(--font-serif-title);
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cart-body-items {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .cart-empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .cart-entry {
+      display: flex;
+      gap: 1.2rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .cart-entry img {
+      width: 75px;
+      height: 95px;
+      object-fit: cover;
+      background: var(--bg-cream);
+    }
+    .cart-entry-info {
+      flex-grow: 1;
+    }
+    .cart-entry-brand {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .cart-entry-name {
+      font-size: 0.9rem;
+      font-family: var(--font-serif-title);
+      margin-bottom: 0.3rem;
+    }
+    .cart-entry-price {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+    .cart-entry-ctrls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-mini-stepper {
+      display: flex;
+      border: 1px solid var(--border-subtle);
+    }
+    .cart-mini-stepper button {
+      width: 26px;
+      height: 26px;
+      font-size: 0.8rem;
+    }
+    .cart-mini-stepper span {
+      width: 26px;
+      text-align: center;
+      font-size: 0.78rem;
+      line-height: 26px;
+    }
+    .cart-remove-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .cart-drawer-foot {
+      padding: 1.8rem;
+      background: var(--bg-cream);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .cart-total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.4rem;
+    }
+    .cart-total-amount {
+      font-family: var(--font-serif-title);
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+       12. MODAL ACADÉMICO (TDR OBLIGATORIO)
+       ========================================================================= */
+    .academic-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(12, 11, 11, 0.65);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+      padding: 1.5rem;
+    }
+    .academic-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .academic-modal-card {
+      background: #FFFFFF;
+      max-width: 480px;
+      width: 100%;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      transform: translateY(15px);
+      transition: var(--transition-smooth);
+    }
+    .academic-modal-overlay.open .academic-modal-card {
+      transform: translateY(0);
+    }
+
+    .academic-modal-icon {
+      font-family: var(--font-serif-display);
+      font-size: 2.5rem;
+      color: var(--text-burgundy);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .academic-modal-title {
+      font-family: var(--font-serif-display);
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      color: var(--text-main);
+    }
+
+    .academic-modal-body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 2.2rem;
+    }
+
+    /* =========================================================================
+       13. FOOTER EDITORIAL
+       ========================================================================= */
+    footer.editorial-footer {
+      background: #111010;
+      color: #FAF5F5;
+      padding: 6rem 0 3rem;
+      border-top: 1px solid #242221;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 4rem;
+      margin-bottom: 5rem;
+    }
+
+    .footer-brand-col .logo-lumé {
+      color: #FFFFFF;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .footer-about-text {
+      color: #8E8783;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      max-width: 320px;
+    }
+
+    .footer-col-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: #FAF5F5;
+    }
+
+    .footer-menu-list {
+      list-style: none;
+    }
+    .footer-menu-list li {
+      margin-bottom: 0.8rem;
+    }
+    .footer-menu-list a {
+      color: #8E8783;
+      font-size: 0.82rem;
+    }
+    .footer-menu-list a:hover {
+      color: #FFFFFF;
+      padding-left: 4px;
+    }
+
+    .footer-disclaimer-box {
+      border-top: 1px solid #242221;
+      padding-top: 2.5rem;
+      text-align: center;
+    }
+    .footer-legal-notice {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 0.78rem;
+      color: #8E8783;
+      line-height: 1.7;
+    }
+
+    /* =========================================================================
+       RESPONSIVE
+       ========================================================================= */
+    @media (max-width: 1024px) {
+      .hero-split,
+      .banner-split-grid,
+      .noir-grid,
+      .burgundy-grid,
+      .detail-split-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .brands-triptych {
+        grid-template-columns: 1fr;
+      }
+      #bestsellersContainer {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      #trendingContainer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .footer-top-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+      }
+      .nav-links-center {
+        display: none;
+      }
+      .burger-btn {
+        display: block;
+      }
+      .nav-links-center.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 85px;
+        left: 0;
+        width: 100%;
+        background: #FFFFFF;
+        padding: 2.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+      }
+    }
+
+    @media (max-width: 640px) {
+      #bestsellersContainer, #trendingContainer {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+      }
+      #bestsellersContainer .product-card-image-box {
+        height: 210px;
+      }
+      .product-card-actions {
+        grid-template-columns: 1fr;
+      }
+      .footer-top-grid {
+        grid-template-columns: 1fr;
+      }
+      .search-bar-inline {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. BARRA SUPERIOR
+       ========================================================================= -->
+  <aside class="announcement-bar">
+    15% en todo el sitio | usa el código <strong>LUME15</strong>
+  </aside>
+
+  <!-- =========================================================================
+       2. NAVBAR
+       ========================================================================= -->
+  <header class="header-nav">
+    <div class="container nav-inner">
+      <button class="burger-btn" onclick="toggleMobileNav()" aria-label="Menú">☰</button>
+
+      <a href="javascript:void(0)" onclick="navigateTo('home')" class="logo-lumé">
+        LUMÉ
+      </a>
+
+      <nav>
+        <ul class="nav-links-center" id="navCenterMenu">
+          <li><a href="javascript:void(0)" onclick="navigateTo('catalog')">Comprar todo</a></li>
+          <li><a href="javascript:void(0)" onclick="navigateTo('catalog')">Nuevo</a></li>
+          <li><a href="javascript:void(0)" onclick="scrollToSection('bestsellersSection')">Más vendidos</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByBrand('Dior')">Dior</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByBrand('Gucci')">Gucci</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByBrand('Yves Saint Laurent')">YSL</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByBrand('Chanel')">Chanel</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-icons-right">
+        <div class="search-bar-inline">
+          <span class="search-icon-pos">🔍</span>
+          <input type="text" class="search-input-header" placeholder="Buscar..." onkeyup="handleGlobalSearch(this.value)" />
+        </div>
+
+        <button class="icon-btn" onclick="void(0)" title="Usuario">
+          👤
+        </button>
+
+        <button class="icon-btn" onclick="toggleCartDrawer()" title="Cesta">
+          🛍️
+          <span class="cart-counter" id="cartCountBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =======================================================================
+         VISTA 1: HOME (EDITORIAL)
+         ======================================================================= -->
+    <div id="view-home" class="spa-view active">
+
+      <!-- 3. HERO PRINCIPAL -->
+      <section class="editorial-hero">
+        <div class="container">
+          <div class="hero-split">
+            <div class="hero-content-left">
+              <span class="hero-tagline">PRODUCTO PRINCIPAL · TDR</span>
+              <h1 class="hero-headline">Miss Dior<br><em>tu esencia.</em></h1>
+              <p class="hero-description">
+                Miss Dior Eau de Parfum (2021). Una fragancia floral presentada como protagonista de nuestro experimento académico.
+              </p>
+              <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+                <strong style="font-size:1.35rem;">51,99 €</strong>
+                <span style="text-decoration:line-through;opacity:.55;">86,65 €</span>
+                <span style="letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;">-40%</span>
+              </div>
+              <button class="btn-luxury btn-luxury-dark" onclick="executeBuyNow(1)">
+                Comprar
+              </button>
+            </div>
+            <div class="hero-image-right">
+              <img src="https://kosmeticas.ma/wp-content/uploads/2023/07/P10017595_2.jpg" alt="Miss Dior Eau de Parfum (2021)" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SECCIÓN MARCAS DESTACADAS ("Descubre más") -->
+      <section class="brands-section">
+        <div class="container">
+          <div class="brands-section-header">
+            <span class="editorial-label">Colecciones de Alta Costura</span>
+            <h2 class="section-title">Descubre más</h2>
+          </div>
+
+          <div class="brands-triptych">
+            <!-- YSL -->
+            <article class="brand-card-editorial" onclick="filterByBrand('Yves Saint Laurent')">
+              <div class="brand-card-img-wrap">
+                <img src="https://www.brueckenparfuemerie.de/images/4955/libre-parfum.jpg" alt="Yves Saint Laurent Fragrances" />
+              </div>
+              <div class="brand-card-meta">
+                <h3 class="brand-card-title">YSL</h3>
+                <span class="brand-card-link">Explorar universo</span>
+              </div>
+            </article>
+
+            <!-- DIOR -->
+            <article class="brand-card-editorial" onclick="filterByBrand('Dior')">
+              <div class="brand-card-img-wrap">
+                <img src="https://kosmeticas.ma/wp-content/uploads/2023/07/P10017595_2.jpg" alt="Dior Fragrances" />
+              </div>
+              <div class="brand-card-meta">
+                <h3 class="brand-card-title">DIOR</h3>
+                <span class="brand-card-link">Explorar universo</span>
+              </div>
+            </article>
+
+            <!-- CHANEL -->
+            <article class="brand-card-editorial" onclick="filterByBrand('Chanel')">
+              <div class="brand-card-img-wrap">
+                <img src="https://f.nooncdn.com/p/v1620640631/N34132959A_4.jpg?width=800" alt="Chanel Fragrances" />
+              </div>
+              <div class="brand-card-meta">
+                <h3 class="brand-card-title">CHANEL</h3>
+                <span class="brand-card-link">Explorar universo</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. SECCIÓN "MÁS VENDIDOS" (CON MISS DIOR DESTACADO) -->
+      <section class="bestsellers-section" id="bestsellersSection">
+        <div class="container">
+          <div class="editorial-head-center">
+            <span class="editorial-label">IMPRESCINDIBLES</span>
+            <h2 class="section-title">Más vendidos</h2>
+          </div>
+
+          <div class="product-grid-editorial" id="bestsellersContainer">
+            <!-- Render dinámico desde JS con Miss Dior prioritario -->
+          </div>
+
+          <div style="text-align: center; margin-top: 4rem;">
+            <button class="btn-luxury btn-luxury-outline" onclick="navigateTo('catalog')">
+              Comprar más vendidos
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. BANNER PROMOCIONAL (LUME15) -->
+      <section class="promotional-banner-split">
+        <div class="container">
+          <div class="banner-split-grid">
+            <div class="banner-img-half">
+              <img src="https://images.unsplash.com/photo-1673710672680-944563ff9cce?auto=format&fit=crop&fm=jpg&q=85&w=1600" alt="Colección de Perfumes LUMÉ" />
+            </div>
+            <div class="banner-text-half">
+              <span class="editorial-label">DISPONIBLE HASTA EL 20/9</span>
+              <h2 class="banner-promo-title">15% en todo<br>el sitio</h2>
+              <p class="banner-promo-code">
+                Usa el código <span>LUME15</span> al pagar
+              </p>
+              <button class="btn-luxury btn-luxury-dark" onclick="selectPromoAndNavigate('banner_lume15')">
+                Comprar todo
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. SECCIÓN EDITORIAL "TU AROMA" (FONDO NEGRO) -->
+      <section class="editorial-noir">
+        <div class="container">
+          <div class="noir-grid">
+            <div class="noir-text-col">
+              <span class="editorial-label">TU AROMA</span>
+              <h2 class="noir-headline">Las fragancias más irresistibles</h2>
+              <p class="noir-desc">
+                Descubre una selección de perfumes con aromas sofisticados y envolventes, creados para expresar tu personalidad y dejar una huella inolvidable en cada ocasión.
+              </p>
+              <button class="btn-luxury btn-luxury-light" onclick="navigateTo('catalog')">
+                Comprar perfumes
+              </button>
+            </div>
+            <div class="noir-img-col">
+              <img src="https://images.unsplash.com/photo-1590736701530-f9e57920dd6f?auto=format&fit=crop&fm=jpg&q=85&w=1600" alt="Aromas exclusivos LUMÉ" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. SECCIÓN "DE MODA" -->
+      <section class="trending-section">
+        <div class="container">
+          <div class="editorial-head-center">
+            <span class="editorial-label">NO TE QUEDES SIN ELLOS</span>
+            <h2 class="section-title">De moda</h2>
+          </div>
+
+          <div class="product-grid-editorial" id="trendingContainer">
+            <!-- Render dinámico desde JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. BLOQUE EDITORIAL FINAL (BURDEOS) -->
+      <section class="burgundy-editorial-block">
+        <div class="container">
+          <div class="burgundy-grid">
+            <div class="burgundy-text-half">
+              <span class="editorial-label">CREEMOS QUE</span>
+              <h2 class="burgundy-title">Tu esencia<br>es lo primero</h2>
+              <p class="burgundy-quote">
+                En LUMÉ creemos que un perfume es mucho más que una fragancia: es una forma de expresar quién eres. Por eso seleccionamos aromas sofisticados, envolventes y únicos, pensados para acompañarte y dejar una huella inolvidable.
+              </p>
+            </div>
+            <div class="burgundy-img-half">
+              <img src="https://images.unsplash.com/photo-1642410259623-8cd928747bb7?auto=format&fit=crop&fm=jpg&q=85&w=1600" alt="Manifiesto Olfativo LUMÉ" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /#view-home -->
+
+    <!-- =======================================================================
+         VISTA 2: CATÁLOGO COMPLETO
+         ======================================================================= -->
+    <div id="view-catalog" class="spa-view">
+      <div class="container" style="padding: 5rem 2rem 7rem;">
+        <div class="editorial-head-center">
+          <span class="editorial-label">CATÁLOGO EXCLUSIVO</span>
+          <h1 class="section-title" id="catalogHeading">Todos los perfumes</h1>
+          <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 500px; margin: 0 auto;">
+            Una antología de dieciséis creaciones icónicas de las casas de perfumes más veneradas del mundo.
+          </p>
+        </div>
+
+        <div class="product-grid-editorial" id="allProductsGrid">
+          <!-- Render dinámico de los 16 productos -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================================
+         VISTA 3: FICHA DEDICADA MISS DIOR
+         ======================================================================= -->
+    <div id="view-detail-miss-dior" class="spa-view">
+      <div class="container product-detail-layout">
+        <div class="breadcrumb-nav">
+          <a href="javascript:void(0)" onclick="navigateTo('home')">Inicio</a> /
+          <a href="javascript:void(0)" onclick="navigateTo('catalog')">Perfumes</a> /
+          <span>Miss Dior Eau de Parfum</span>
+        </div>
+
+        <div class="detail-split-grid">
+          <div class="detail-main-image-wrap">
+            <img src="https://kosmeticas.ma/wp-content/uploads/2023/07/P10017595_2.jpg" alt="Miss Dior Eau de Parfum (2021)" />
+          </div>
+
+          <div class="detail-info-pane">
+            <span class="detail-brand-badge">DIOR</span>
+            <h1 class="detail-product-title">Miss Dior Eau de Parfum (2021)</h1>
+
+            <div class="detail-rating-row">
+              ★★★★★ <span>4.9 / 5 (128 reseñas)</span>
+            </div>
+
+            <div class="detail-pricing-panel">
+              <span class="detail-active-price">51,99 €</span>
+              <span class="detail-struck-price">86,65 €</span>
+              <span class="detail-discount-tag">-40%</span>
+            </div>
+
+            <p class="detail-description-text">
+              Un soplo floral lleno de optimismo y vitalidad. Miss Dior Eau de Parfum reinventa su estela con un lazo de alta costura y un bouquet compuesto por rosa centifolia, lirio de los valles y peonía, asentado sobre notas sensuales de madera y almizcle.
+            </p>
+
+            <div class="detail-qty-row">
+              <span style="font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">Cantidad</span>
+              <div class="qty-stepper">
+                <button onclick="modifyDetailQty(-1)">−</button>
+                <span id="detailQtyDisplay">1</span>
+                <button onclick="modifyDetailQty(1)">+</button>
+              </div>
+            </div>
+
+            <div class="detail-buttons-stack">
+              <!-- Botón principal: Comprar ahora (NO añade al carrito) -->
+              <button class="btn-luxury btn-luxury-dark" onclick="executeBuyNow(1)">
+                Comprar ahora
+              </button>
+              <!-- Botón secundario: Añadir a la cesta (Añade al carrito) -->
+              <button class="btn-luxury btn-luxury-outline" onclick="executeAddToCart(1)">
+                Añadir a la cesta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       11. CARRITO LATERAL (DRAWER)
+       ========================================================================= -->
+  <div class="cart-backdrop" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+  <aside class="cart-drawer-pane" id="cartDrawer" aria-label="Cesta de compra">
+    <div class="cart-drawer-top">
+      <h3 class="cart-drawer-title">Cesta</h3>
+      <button onclick="toggleCartDrawer()" style="font-size: 1.2rem;">✕</button>
+    </div>
+
+    <div class="cart-body-items" id="cartItemsContainer">
+      <!-- Inyectado por JS -->
+    </div>
+
+    <div class="cart-drawer-foot">
+      <div class="cart-total-line">
+        <span style="font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;">Total</span>
+        <span class="cart-total-amount" id="cartTotalSum">0,00 €</span>
+      </div>
+      <button class="btn-luxury btn-luxury-dark" style="width: 100%;" onclick="executeCartCheckout()">
+        Tramitar Pedido
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       12. MODAL ACADÉMICO (TDR BACHILLERATO)
+       ========================================================================= -->
+  <div class="academic-modal-overlay" id="academicModal" role="dialog" aria-modal="true">
+    <div class="academic-modal-card">
+      <span class="academic-modal-icon">⚜</span>
+      <h3 class="academic-modal-title">Simulación académica</h3>
+      <p class="academic-modal-body">
+        Esta web forma parte de un proyecto de investigación de Bachillerato. Las compras y pedidos son simulados y no se realiza ningún pago real.
+      </p>
+      <button class="btn-luxury btn-luxury-dark" style="width: 100%;" onclick="closeAcademicDisclaimerModal()">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       13. FOOTER EDITORIAL
+       ========================================================================= -->
+  <footer class="editorial-footer">
+    <div class="container">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <span class="logo-lumé">LUMÉ</span>
+          <p class="footer-about-text">
+            Boutique editorial de alta perfumería creada para el análisis de la psicología del consumidor y la respuesta al diseño digital de lujo.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Explorar</h4>
+          <ul class="footer-menu-list">
+            <li><a href="javascript:void(0)" onclick="navigateTo('home')">Inicio</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('catalog')">Todos los perfumes</a></li>
+            <li><a href="javascript:void(0)" onclick="scrollToSection('bestsellersSection')">Más vendidos</a></li>
+            <li><a href="javascript:void(0)" onclick="navigateTo('detail-miss-dior')">Miss Dior</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Maisons</h4>
+          <ul class="footer-menu-list">
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Dior')">Dior</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Chanel')">Chanel</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Yves Saint Laurent')">YSL</a></li>
+            <li><a href="javascript:void(0)" onclick="filterByBrand('Gucci')">Gucci</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Investigación</h4>
+          <p style="color: #8E8783; font-size: 0.8rem; margin-bottom: 1rem;">
+            Treball de Recerca / Trabajo de Investigación sobre percepción de marca y publicidad.
+          </p>
+          <span style="font-size: 0.72rem; color: #DAB8BF; letter-spacing: 0.15em; text-transform: uppercase;">
+            Condición: <strong id="utmConditionBadge">Estándar</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="footer-disclaimer-box">
+        <p class="footer-legal-notice">
+          “LUMÉ es una marca ficticia creada exclusivamente para un proyecto académico. Esta web no realiza ventas reales ni está afiliada, patrocinada o autorizada por las marcas mostradas.”
+        </p>
+        <p style="color: #55504D; font-size: 0.7rem; margin-top: 1rem; letter-spacing: 0.1em; text-transform: uppercase;">
+          © 2026 LUMÉ Haute Parfumerie — Proyecto Académico TDR
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       JAVASCRIPT: DATOS, NAVEGACIÓN Y EVENTOS TDR
+       ========================================================================= -->
+  <script>
+    // BASE DE DATOS DE PRODUCTOS (16 productos íntegros)
+    const CATALOG = [
+      {
+        id: 1,
+        brand: "Dior",
+        name: "Miss Dior Eau de Parfum (2021)",
+        price: 51.99,
+        oldPrice: 86.65,
+        rating: 4.9,
+        reviews: 128,
+        image: "https://kosmeticas.ma/wp-content/uploads/2023/07/P10017595_2.jpg",
+        isOffer: true,
+        discountTag: "-40%",
+        bestseller: true,
+        trending: true
+      },
+      {
+        id: 2,
+        brand: "Yves Saint Laurent",
+        name: "Libre Eau de Parfum",
+        price: 74.50,
+        oldPrice: 98.00,
+        rating: 4.8,
+        reviews: 94,
+        image: "https://www.brueckenparfuemerie.de/images/4955/libre-parfum.jpg",
+        isOffer: true,
+        discountTag: "-24%",
+        bestseller: true,
+        trending: false
+      },
+      {
+        id: 3,
+        brand: "Chanel",
+        name: "Coco Mademoiselle",
+        price: 112.00,
+        oldPrice: null,
+        rating: 4.9,
+        reviews: 210,
+        image: "https://f.nooncdn.com/p/v1620640631/N34132959A_4.jpg?width=800",
+        isOffer: false,
+        discountTag: null,
+        bestseller: true,
+        trending: false
+      },
+      {
+        id: 4,
+        brand: "Lancôme",
+        name: "La Vie Est Belle",
+        price: 68.90,
+        oldPrice: 89.00,
+        rating: 4.7,
+        reviews: 185,
+        image: "https://perfumeforever.com/cdn/shop/files/B3027W.jpg?v=1761710302",
+        isOffer: true,
+        discountTag: "-22%",
+        bestseller: true,
+        trending: false
+      },
+      {
+        id: 5,
+        brand: "Carolina Herrera",
+        name: "Good Girl Eau de Parfum",
+        price: 79.00,
+        oldPrice: 95.00,
+        rating: 4.8,
+        reviews: 142,
+        image: "https://perfumeforever.com/cdn/shop/files/B3726AW.jpg",
+        isOffer: true,
+        discountTag: "-17%",
+        bestseller: false,
+        trending: true
+      },
+      {
+        id: 6,
+        brand: "Giorgio Armani",
+        name: "Sì Eau de Parfum",
+        price: 72.00,
+        oldPrice: 92.00,
+        rating: 4.7,
+        reviews: 88,
+        image: "https://perfumeforever.com/cdn/shop/files/B3087W.jpg?v=1780640929",
+        isOffer: true,
+        discountTag: "-21%",
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 7,
+        brand: "Rabanne",
+        name: "Fame Parfum",
+        price: 69.95,
+        oldPrice: 85.00,
+        rating: 4.6,
+        reviews: 64,
+        image: "https://perfumeforever.com/cdn/shop/files/B6991W_1461a771-22c9-4691-a00d-188d3b60e129.jpg?v=1761704852",
+        isOffer: true,
+        discountTag: "-18%",
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 8,
+        brand: "Dior",
+        name: "J'adore Eau de Parfum",
+        price: 84.00,
+        oldPrice: 105.00,
+        rating: 4.9,
+        reviews: 160,
+        image: "https://fragrancemarket.com/cdn/shop/products/Dior-J-Adore-Womens-Eau-de-Parfume-Spray-1.7-Best-Price-Fragrance-Parfume-Details.jpg?v=1568968604",
+        isOffer: true,
+        discountTag: "-20%",
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 9,
+        brand: "Yves Saint Laurent",
+        name: "Black Opium",
+        price: 76.50,
+        oldPrice: 96.00,
+        rating: 4.8,
+        reviews: 115,
+        image: "https://perfumeforever.com/cdn/shop/files/B3314W.jpg",
+        isOffer: true,
+        discountTag: "-20%",
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 10,
+        brand: "Chanel",
+        name: "Chance Eau Tendre",
+        price: 108.00,
+        oldPrice: null,
+        rating: 4.9,
+        reviews: 98,
+        image: "https://i.makeupshop.nl/600x600/ztyfvxqgivo8.jpg",
+        isOffer: false,
+        discountTag: null,
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 11,
+        brand: "Gucci",
+        name: "Gucci Bloom Eau de Parfum",
+        price: 79.90,
+        oldPrice: 99.90,
+        rating: 4.8,
+        reviews: 87,
+        image: "https://www.parfumerie-en-ligne.com/56768-medium_default/guccigucci-bloomtype-du-produit-eau-de-parfum-famille-olfactive-floral-blanc-genre-femme-annee-de-lancement-201.jpg",
+        isOffer: true,
+        discountTag: "-20%",
+        bestseller: true,
+        trending: true
+      },
+      {
+        id: 12,
+        brand: "Yves Saint Laurent",
+        name: "Mon Paris Eau de Parfum",
+        price: 82.50,
+        oldPrice: 105.00,
+        rating: 4.7,
+        reviews: 76,
+        image: "https://cdn.mafrservices.com/sys-master-root/h6f/h39/13791963119646",
+        isOffer: true,
+        discountTag: "-21%",
+        bestseller: false,
+        trending: false
+      },
+      {
+        id: 13,
+        brand: "Valentino",
+        name: "Born In Roma Donna Eau de Parfum",
+        price: 89.90,
+        oldPrice: 115.00,
+        rating: 4.8,
+        reviews: 91,
+        image: "https://www.bella-me.de/37085-large_default/valentino-born-in-roma-donna-eau-de-parfum-fuer-damen.jpg",
+        isOffer: true,
+        discountTag: "-22%",
+        bestseller: false,
+        trending: true
+      },
+      {
+        id: 14,
+        brand: "Burberry",
+        name: "Her Eau de Parfum",
+        price: 78.90,
+        oldPrice: 98.00,
+        rating: 4.7,
+        reviews: 69,
+        image: "https://www.passionbeaute.fr/media/catalog/product/cache/f3020b7489dcfc4d1d147cf4dad07b7f/b/u/burberry_3614227693241_v1.jpg",
+        isOffer: true,
+        discountTag: "-20%",
+        bestseller: false,
+        trending: true
+      },
+      {
+        id: 15,
+        brand: "Dior",
+        name: "Sauvage Eau de Parfum",
+        price: 89.00,
+        oldPrice: 110.00,
+        rating: 4.8,
+        reviews: 132,
+        image: "https://i.ebayimg.com/images/g/7N0AAeSwzQBn0fJi/s-l1200.jpg",
+        isOffer: true,
+        discountTag: "-19%",
+        bestseller: true,
+        trending: false
+      },
+      {
+        id: 16,
+        brand: "Lancôme",
+        name: "Idôle Eau de Parfum",
+        price: 73.90,
+        oldPrice: 92.00,
+        rating: 4.7,
+        reviews: 73,
+        image: "https://universodoperfume.com.br/cdn/shop/files/idole-leau-de-parfum-feminino-lancome-luxo-universo-do-perfume.webp?v=1783985429&width=1946",
+        isOffer: true,
+        discountTag: "-20%",
+        bestseller: false,
+        trending: false
+      }
+    ];
+
+    // ESTADO
+    let cart = [];
+    let detailQty = 1;
+
+    // INICIALIZACIÓN
+    document.addEventListener('DOMContentLoaded', () => {
+      renderEditorialGrids();
+      updateBadgeUTM();
+
+      // Registro de aterrizaje inicial (landing_page) con UTMs para el TDR
+      trackEvent('landing_page', {
+        page_location: window.location.href,
+        page_title: 'LUMÉ Editorial Home'
+      });
+    });
+
+    function updateBadgeUTM() {
+      const badge = document.getElementById('utmConditionBadge');
+      if (!badge) return;
+      if (utmMedium === 'tradicional') {
+        badge.innerText = 'Cartel Tradicional';
+      } else if (utmMedium === 'moderno') {
+        badge.innerText = 'Publicidad Moderna';
+      } else {
+        badge.innerText = 'Tráfico Directo';
+      }
+    }
+
+    // NAVEGACIÓN ENTRE VISTAS
+    function navigateTo(viewKey) {
+      document.querySelectorAll('.spa-view').forEach(v => v.classList.remove('active'));
+
+      const target = document.getElementById(`view-${viewKey}`);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      const mobileMenu = document.getElementById('navCenterMenu');
+      if (mobileMenu) mobileMenu.classList.remove('mobile-open');
+
+      // GA4 page_view virtual
+      trackEvent('page_view', {
+        page_title: viewKey,
+        page_path: `/#${viewKey}`
+      });
+
+      if (viewKey === 'detail-miss-dior') {
+        trackEvent('view_item', {
+          currency: 'EUR',
+          value: 51.99,
+          items: [{
+            item_id: '1',
+            item_name: 'Miss Dior Eau de Parfum (2021)',
+            item_brand: 'Dior',
+            price: 51.99
+          }]
+        });
+      }
+    }
+
+    function scrollToSection(sectionId) {
+      navigateTo('home');
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    function toggleMobileNav() {
+      document.getElementById('navCenterMenu').classList.toggle('mobile-open');
+    }
+
+    // RENDERIZADOR DE TARJETAS EDITORIALES
+    function renderProductCard(p) {
+      const isMissDior = p.id === 1;
+      const clickAction = isMissDior ? "navigateTo('detail-miss-dior')" : "void(0)";
+
+      return `
+        <article class="product-card-editorial">
+          ${p.isOffer && p.discountTag ? `<span class="product-card-discount-tag">${p.discountTag}</span>` : ''}
+          <button class="product-card-heart" type="button" aria-label="Añadir ${p.name} a favoritos" onclick="event.stopPropagation(); this.classList.toggle('is-favorite')">♡</button>
+          <div class="product-card-image-box" onclick="${clickAction}">
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-fallback')" />
+          </div>
+          <div class="product-card-body">
+            <span class="product-card-brand">${p.brand}</span>
+            <h3 class="product-card-name" onclick="${clickAction}">${p.name}</h3>
+            <div class="product-card-reviews">
+              ★★★★★ <span>${p.rating} (${p.reviews})</span>
+            </div>
+            <div class="product-card-prices">
+              <span class="current-price">${p.price.toFixed(2).replace('.', ',')} €</span>
+              ${p.oldPrice ? `<span class="old-price">${p.oldPrice.toFixed(2).replace('.', ',')} €</span>` : ''}
+            </div>
+            <div class="product-card-actions">
+              <button class="btn-card-action btn-card-add" onclick="executeAddToCart(${p.id})">
+                Añadir a la cesta
+              </button>
+              <button class="btn-card-action btn-card-buy" onclick="executeBuyNow(${p.id})">
+                Comprar
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderEditorialGrids() {
+      // 1. Más vendidos (Miss Dior prioritario en la posición 1)
+      const bestsellersWrap = document.getElementById('bestsellersContainer');
+      if (bestsellersWrap) {
+        const bestsellers = CATALOG.filter(p => p.bestseller);
+        bestsellersWrap.innerHTML = bestsellers.map(renderProductCard).join('');
+      }
+
+      // 2. De moda
+      const trendingWrap = document.getElementById('trendingContainer');
+      if (trendingWrap) {
+        const trending = CATALOG.filter(p => p.trending);
+        trendingWrap.innerHTML = trending.map(renderProductCard).join('');
+      }
+
+      // 3. Catálogo completo (los 16)
+      const allGrid = document.getElementById('allProductsGrid');
+      if (allGrid) {
+        allGrid.innerHTML = CATALOG.map(renderProductCard).join('');
+      }
+    }
+
+    // FILTRADO POR MARCAS
+    function filterByBrand(brandName) {
+      navigateTo('catalog');
+      const heading = document.getElementById('catalogHeading');
+      const allGrid = document.getElementById('allProductsGrid');
+
+      const matches = CATALOG.filter(p => p.brand.toLowerCase() === brandName.toLowerCase());
+
+      trackEvent('select_promotion', {
+        promotion_name: `Brand_${brandName}`
+      });
+
+      if (heading) heading.innerText = `Colección ${brandName}`;
+      if (allGrid) {
+        if (matches.length > 0) {
+          allGrid.innerHTML = matches.map(renderProductCard).join('');
+        } else {
+          allGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+              <p>Próximamente incorporaremos las fragancias de la maison <strong>${brandName}</strong>.</p>
+              <button class="btn-luxury btn-luxury-dark" style="margin-top: 1.5rem;" onclick="filterByBrand('Dior')">Ver Dior</button>
+            </div>
+          `;
+        }
+      }
+    }
+
+    function selectPromoAndNavigate(promoName) {
+      trackEvent('select_promotion', { promotion_name: promoName });
+      navigateTo('catalog');
+    }
+
+    function handleGlobalSearch(query) {
+      if (!query || query.trim() === '') {
+        renderEditorialGrids();
+        return;
+      }
+      navigateTo('catalog');
+      const q = query.toLowerCase().trim();
+      const filtered = CATALOG.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+      const allGrid = document.getElementById('allProductsGrid');
+
+      trackEvent('search', { search_term: query });
+
+      if (filtered.length === 0) {
+        allGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-muted);">No se encontraron fragancias para "${query}".</p>`;
+      } else {
+        allGrid.innerHTML = filtered.map(renderProductCard).join('');
+      }
+    }
+
+    // =========================================================================
+    // LÓGICA DE COMPRA CALIBRADA PARA EL EXPERIMENTO TDR
+    // =========================================================================
+
+    // 15. "COMPRAR AHORA": NO añade a la cesta, registra evento de compra y muestra modal
+    function executeBuyNow(productId) {
+      const prod = CATALOG.find(p => p.id === productId);
+      if (!prod) return;
+
+      const qty = (productId === 1 && document.getElementById('view-detail-miss-dior').classList.contains('active')) ? detailQty : 1;
+
+      // Evento GA4 para distinguir intención directa de compra
+      trackEvent('buy_now_intent', {
+        item_id: String(prod.id),
+        item_name: prod.name,
+        item_brand: prod.brand,
+        value: prod.price * qty,
+        currency: 'EUR',
+        quantity: qty,
+        is_miss_dior: prod.id === 1
+      });
+
+      // Abre modal académico (NO añade a la cesta)
+      showAcademicDisclaimerModal('buy_now_button');
+    }
+
+    // 16. "AÑADIR A LA CESTA": Añade producto, envía add_to_cart, actualiza cesta y muestra modal
+    function executeAddToCart(productId) {
+      const prod = CATALOG.find(p => p.id === productId);
+      if (!prod) return;
+
+      const qty = (productId === 1 && document.getElementById('view-detail-miss-dior').classList.contains('active')) ? detailQty : 1;
+
+      const existingIndex = cart.findIndex(i => i.id === productId);
+      if (existingIndex > -1) {
+        cart[existingIndex].qty += qty;
+      } else {
+        cart.push({ ...prod, qty });
+      }
+
+      updateCartUI();
+
+      // Evento GA4 estándar de comercio electrónico
+      trackEvent('add_to_cart', {
+        currency: 'EUR',
+        value: prod.price * qty,
+        items: [{
+          item_id: String(prod.id),
+          item_name: prod.name,
+          item_brand: prod.brand,
+          price: prod.price,
+          quantity: qty
+        }]
+      });
+
+      // Abre el drawer de la cesta para confirmar visualmente
+      openCartDrawer();
+
+      // Añadir a la cesta NO muestra el aviso académico.
+    }
+
+    // 17. CHECKOUT: Tramitar pedido desde la cesta
+    function executeCartCheckout() {
+      if (cart.length === 0) return;
+
+      const totalVal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+
+      trackEvent('begin_checkout', {
+        currency: 'EUR',
+        value: totalVal,
+        items_count: cart.reduce((acc, i) => acc + i.qty, 0)
+      });
+
+      // El aviso académico se muestra únicamente al pulsar "Comprar".
+    }
+
+    // GESTIÓN DEL CARRITO
+    function openCartDrawer() {
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('cartOverlay').classList.add('open');
+    }
+    function toggleCartDrawer() {
+      document.getElementById('cartDrawer').classList.toggle('open');
+      document.getElementById('cartOverlay').classList.toggle('open');
+    }
+
+    function modifyCartItemQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      updateCartUI();
+    }
+
+    function removeCartItem(id) {
+      cart = cart.filter(i => i.id !== id);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartCountBadge');
+      const container = document.getElementById('cartItemsContainer');
+      const totalEl = document.getElementById('cartTotalSum');
+
+      const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+      badge.innerText = totalQty;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="cart-empty-state">
+            <p>Tu cesta está vacía</p>
+          </div>
+        `;
+        totalEl.innerText = "0,00 €";
+        return;
+      }
+
+      let subtotal = 0;
+      container.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+        return `
+          <div class="cart-entry">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-entry-info">
+              <span class="cart-entry-brand">${item.brand}</span>
+              <h4 class="cart-entry-name">${item.name}</h4>
+              <div class="cart-entry-price">${item.price.toFixed(2).replace('.', ',')} €</div>
+              <div class="cart-entry-ctrls">
+                <div class="cart-mini-stepper">
+                  <button onclick="modifyCartItemQty(${item.id}, -1)">−</button>
+                  <span>${item.qty}</span>
+                  <button onclick="modifyCartItemQty(${item.id}, 1)">+</button>
+                </div>
+                <button class="cart-remove-link" onclick="removeCartItem(${item.id})">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalEl.innerText = `${subtotal.toFixed(2).replace('.', ',')} €`;
+    }
+
+    // CANTIDAD EN FICHA MISS DIOR
+    function modifyDetailQty(delta) {
+      detailQty = Math.max(1, detailQty + delta);
+      document.getElementById('detailQtyDisplay').innerText = detailQty;
+    }
+
+    // 18. MODAL ACADÉMICO (CONTROL ESTRICTO: NO DUPLICAR)
+    let isModalOpen = false;
+    function showAcademicDisclaimerModal(origin = 'general') {
+      if (isModalOpen) return;
+      const modal = document.getElementById('academicModal');
+      modal.classList.add('open');
+      isModalOpen = true;
+
+      trackEvent('academic_modal_displayed', { trigger_origin: origin });
+    }
+
+    function closeAcademicDisclaimerModal() {
+      const modal = document.getElementById('academicModal');
+      modal.classList.remove('open');
+      isModalOpen = false;
+    }
+  </script>
+</body>
+</html>
